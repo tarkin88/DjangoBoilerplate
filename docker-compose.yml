@@ -2,14 +2,15 @@ version: '3'
 
 services:
   db:
-    image: postgres
-    # container_name: project_db
+    image: postgres:alpine
+    env_file: environ.env
+    container_name: db
     ports: 
-      - 5432:5432
-    # environment:
-    #   - POSTGRES_USER=<USER>
-    #   - POSTGRES_PASSWORD=<PASSWORD>
-    #   - POSTGRES_DB=<DATABASE>  
+      - ${DB_PORT}:5432
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
